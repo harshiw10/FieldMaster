@@ -33,6 +33,7 @@ const ResizeMapScreen = ({ navigation, route }) => {
   const mapRef = React.useRef(null);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [isMarkerMoved, setIsMarkerMoved] = useState(false);
+  const [lastEnteredPoint, setLastEnteredPoint] = useState(null);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -164,27 +165,37 @@ const ResizeMapScreen = ({ navigation, route }) => {
   const handleMapPress = (event) => {
     if (!isButtonPressed) {
       const newPoint = event.nativeEvent.coordinate;
-      const distances = points.map((point) => {
-        const dx = point.latitude - newPoint.latitude;
-        const dy = point.longitude - newPoint.longitude;
-        return dx * dx + dy * dy; // return squared distance
-      });
+      setLastEnteredPoint(newPoint);
+      const newPoints = [...points, newPoint];
 
-      const sortedDistances = distances
-        .map((value, index) => ({ value, index })) // add index to each distance
-        .sort((a, b) => a.value - b.value) // sort by distance
-        .map(({ index }) => index); // get sorted indices
+      if (newPoints.length > 3) {
+        let minDistance = Infinity;
+        let insertIndex = 0;
 
-      const closestPoints = [
-        points[sortedDistances[0]],
-        points[sortedDistances[1]],
-      ];
+        for (let i = 0; i < newPoints.length - 1; i++) {
+          const point1 = newPoints[i];
+          const point2 = newPoints[i + 1];
 
-      // insert newPoint between closestPoints in the points array
-      const newPoints = [...points];
-      const insertIndex = Math.max(sortedDistances[0], sortedDistances[1]);
-      newPoints.splice(insertIndex, 0, newPoint);
-      setPoints(newPoints);
+          const dx1 = point1.latitude - newPoint.latitude;
+          const dy1 = point1.longitude - newPoint.longitude;
+          const dx2 = point2.latitude - newPoint.latitude;
+          const dy2 = point2.longitude - newPoint.longitude;
+
+          const distance = dx1 * dx1 + dy1 * dy1 + dx2 * dx2 + dy2 * dy2; // sum of squared distances to the two points
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            insertIndex = i + 1;
+          }
+        }
+
+        // insert newPoint at insertIndex in the newPoints array
+        newPoints.splice(insertIndex, 0, newPoint);
+        newPoints.pop(); // remove the duplicate newPoint at the end
+        setPoints(newPoints);
+      } else {
+        setPoints(newPoints);
+      }
     }
   };
   return (
