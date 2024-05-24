@@ -160,6 +160,33 @@ const ResizeMapScreen = ({ navigation, route }) => {
   const toggleMapType = () => {
     setShowDropdown(!showDropdown);
   };
+
+  const handleMapPress = (event) => {
+    if (!isButtonPressed) {
+      const newPoint = event.nativeEvent.coordinate;
+      const distances = points.map((point) => {
+        const dx = point.latitude - newPoint.latitude;
+        const dy = point.longitude - newPoint.longitude;
+        return dx * dx + dy * dy; // return squared distance
+      });
+
+      const sortedDistances = distances
+        .map((value, index) => ({ value, index })) // add index to each distance
+        .sort((a, b) => a.value - b.value) // sort by distance
+        .map(({ index }) => index); // get sorted indices
+
+      const closestPoints = [
+        points[sortedDistances[0]],
+        points[sortedDistances[1]],
+      ];
+
+      // insert newPoint between closestPoints in the points array
+      const newPoints = [...points];
+      const insertIndex = Math.max(sortedDistances[0], sortedDistances[1]);
+      newPoints.splice(insertIndex, 0, newPoint);
+      setPoints(newPoints);
+    }
+  };
   return (
     <>
       <Modal
@@ -215,11 +242,7 @@ const ResizeMapScreen = ({ navigation, route }) => {
             region={region}
             showsUserLocation={true}
             mapType={mapTypes[mapTypeIndex].value}
-            onPress={(event) => {
-              if (!isButtonPressed) {
-                setPoints([...points, event.nativeEvent.coordinate]);
-              }
-            }}
+            onPress={handleMapPress}
             mapPadding={{ top: 0, right: -100, bottom: 0, left: 0 }}
           >
             {points.map((point, index) => (
