@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
-import { GoogleMap, LoadScript, StandaloneSearchBox, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, StandaloneSearchBox, Marker, } from "@react-google-maps/api";
 import { MdLocationOn } from "react-icons/md";
 import { FiMapPin, FiGrid, FiEdit, FiX } from "react-icons/fi";
 import SideNavbar from "../components/SideNavbar/sideNavbar";
@@ -77,7 +77,7 @@ const Managemap = () => {
       <div style={{ height: "100vh" }}>
         <SideNavbar />
       </div>
-      <LoadScript googleMapsApiKey="YOUR_API_KEY" libraries={["places"]}>
+      <LoadScript googleMapsApiKey="AIzaSyB61t78UY4piRjSDjihdHxlF2oqtrtzw8U" libraries={["places"]}>
         <GoogleMap
           ref={mapRef}
           mapContainerStyle={{ width: "100%", height: "100vh" }}
