@@ -142,6 +142,7 @@ const PointAddingScreen = ({ navigation, route }) => {
               locationPoints: points,
               area: areaPerches,
               perimeter: perimeterKilometers,
+              userId: route.params.userId,
             })
               .then((response) => {
                 console.log(response.data);
