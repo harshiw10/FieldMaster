@@ -31,7 +31,6 @@ export default function RegisterScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigation = useNavigation();
   const [passwordError, setPasswordError] = useState("");
-  
 
   const handleSignUp = async () => {
     if (!fName || !lName || !email || !password || !confirmPassword) {
@@ -49,7 +48,7 @@ export default function RegisterScreen() {
       return;
     }
 
-    AxiosInstance.post("/api/users/register", { email, password ,fName, lName })
+    AxiosInstance.post("/api/users/register", { email, password, fName, lName })
       .then((response) => {
         if (response.data.success) {
           Alert.alert(
@@ -87,13 +86,11 @@ export default function RegisterScreen() {
   };
 
   return (
-  
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : " height"} 
-      style={styles.container}
-    >
-      
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : " height"}
+        style={styles.container}
+      >
         <StatusBar barStyle="light-content" backgroundColor="#007BFF" />
         <Appbar.Header style={styles.header}>
           <Appbar.BackAction
@@ -101,145 +98,146 @@ export default function RegisterScreen() {
             color="white"
           />
         </Appbar.Header>
-<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.textSection}>
-          <Text style={styles.head}>Hi!</Text>
-          <Text style={styles.text}>Create a new account</Text>
-        </View>
-
-        <View style={styles.field}>
-          <View style={{ marginBottom: 10 }}>
-            <TextInput
-              label="First Name"
-              mode="outlined"
-              outlineColor="#d9d7d2"
-              activeOutlineColor="#007BFF"
-              style={styles.inputButton}
-              value={fName}
-              theme={{ roundness: 10 }}
-              onChangeText={(text) => setFName(text)}
-            />
-            <TextInput
-              label="Last Name"
-              mode="outlined"
-              outlineColor="#d9d7d2"
-              activeOutlineColor="#007BFF"
-              style={styles.inputButton}
-              value={lName}
-              theme={{ roundness: 10 }}
-              onChangeText={(text) => setLName(text)}
-            />
-            <TextInput
-              label="Email"
-              mode="outlined"
-              outlineColor="#d9d7d2"
-              activeOutlineColor="#007BFF"
-              style={styles.inputButton}
-              value={email}
-              theme={{ roundness: 10 }}
-              onChangeText={(text) => setEmail(text)}
-            />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={styles.textSection}>
+            <Text style={styles.head}>Hi!</Text>
+            <Text style={styles.text}>Create a new account</Text>
           </View>
 
-          <Text style={{marginTop:30,marginBottom:10}}>
-          Create a password that is at least 8 characters long
-          </Text>
+          <View style={styles.field}>
+            <View style={{ marginBottom: responsiveHeight(1) }}>
+              <TextInput
+                label="First Name"
+                mode="outlined"
+                outlineColor="#d9d7d2"
+                activeOutlineColor="#007BFF"
+                style={styles.inputButton}
+                value={fName}
+                theme={{ roundness: 10 }}
+                onChangeText={(text) => setFName(text)}
+              />
+              <TextInput
+                label="Last Name"
+                mode="outlined"
+                outlineColor="#d9d7d2"
+                activeOutlineColor="#007BFF"
+                style={styles.inputButton}
+                value={lName}
+                theme={{ roundness: 10 }}
+                onChangeText={(text) => setLName(text)}
+              />
+              <TextInput
+                label="Email"
+                mode="outlined"
+                outlineColor="#d9d7d2"
+                activeOutlineColor="#007BFF"
+                style={styles.inputButton}
+                value={email}
+                theme={{ roundness: 10 }}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </View>
 
-          <View style={{ marginBottom: 10 }}>
-            <TextInput
-              label="Password"
-              mode="outlined"
-              outlineColor="#d9d7d2"
-              activeOutlineColor="#007BFF"
-              style={{
-                width: responsiveWidth(87),
-                height: responsiveHeight(6),
-                fontSize: responsiveFontSize(1.9),
-              }}
-              theme={{ roundness: 10 }}
-              value={password}
-              onChangeText={(text) => {
-                setPassword(text);
-                setPasswordError("");
-              }}
-              secureTextEntry={!showPassword}
-              right={
-                <TextInput.Icon
-                  icon={showPassword ? "eye" : "eye-off"}
-                  onPress={() => setShowPassword(!showPassword)}
-                />
-              }
-            />
-            {passwordError ? (
-              <Text style={styles.errorText}>{passwordError}</Text>
-            ) : null}
+            <Text style={{ marginTop: responsiveHeight(2) }}>
+              Create a password that is at least 8 characters long
+            </Text>
+
+            <View style={{ marginBottom: responsiveHeight(1) }}>
+              <TextInput
+                label="Password"
+                mode="outlined"
+                outlineColor="#d9d7d2"
+                activeOutlineColor="#007BFF"
+                style={{
+                  width: responsiveWidth(87),
+                  height: responsiveHeight(5.5),
+                  fontSize: responsiveFontSize(1.7),
+                }}
+                theme={{ roundness: 10 }}
+                value={password}
+                onChangeText={(text) => {
+                  setPassword(text);
+                  setPasswordError("");
+                }}
+                secureTextEntry={!showPassword}
+                right={
+                  <TextInput.Icon
+                    icon={showPassword ? "eye" : "eye-off"}
+                    onPress={() => setShowPassword(!showPassword)}
+                  />
+                }
+              />
+              {passwordError ? (
+                <Text style={styles.errorText}>{passwordError}</Text>
+              ) : null}
+            </View>
+
+            <View style={{ marginBottom: responsiveHeight(1) }}>
+              <TextInput
+                label="Confirm Password"
+                mode="outlined"
+                outlineColor="#d9d7d2"
+                activeOutlineColor="#007BFF"
+                theme={{ roundness: 10 }}
+                style={{
+                  width: responsiveWidth(87),
+                  height: responsiveHeight(5.5),
+                  fontSize: responsiveFontSize(1.7),
+                }}
+                value={confirmPassword}
+                onChangeText={(text) => setConfirmPassword(text)}
+                secureTextEntry={!showConfirmPassword}
+                // right={
+                //   <TextInput.Icon
+                //     icon={showConfirmPassword ? "eye" : "eye-off"}
+                //     onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                //   />
+                // }
+              />
+              {passwordError ? (
+                <Text style={styles.errorText}>{passwordError}</Text>
+              ) : null}
+            </View>
+
+            <Button
+              mode="contained"
+              onPress={handleSignUp}
+              style={styles.button}
+            >
+              SIGN UP
+            </Button>
           </View>
 
-          <View style={{ marginBottom: 10 }}>
-            <TextInput
-              label="Confirm Password"
-              mode="outlined"
-              outlineColor="#d9d7d2"
-              activeOutlineColor="#007BFF"
-              theme={{ roundness: 10 }}
-              style={{
-                width: responsiveWidth(87),
-                height: responsiveHeight(6),
-                fontSize: responsiveFontSize(1.9),
-              }}
-              value={confirmPassword}
-              onChangeText={(text) => setConfirmPassword(text)}
-              secureTextEntry={!showConfirmPassword}
-              // right={
-              //   <TextInput.Icon
-              //     icon={showConfirmPassword ? "eye" : "eye-off"}
-              //     onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-              //   />
-              // }
-            />
-            {passwordError ? (
-              <Text style={styles.errorText}>{passwordError}</Text>
-            ) : null}
-          </View>
-
-          <Button mode="contained" onPress={handleSignUp} style={styles.button}>
-            SIGN UP
-          </Button>
-        </View>
-
-        <View style={styles.loginTextContainer}>
-          <Text style={styles.signupText}>Have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={[styles.signupText, styles.signupLink]}>Log in</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.privacyTermsContainer}>
-          <Text style={styles.privacyText}>
-            By clicking "Sign up" you agree to our
-          </Text>
-          <View style={styles.linksContainer}>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={styles.link}>Terms of Service</Text>
-            </TouchableOpacity>
-            <Text style={styles.andText}> and </Text>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={styles.link}>Privacy Policy</Text>
+          <View style={styles.loginTextContainer}>
+            <Text style={styles.signupText}>Have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={[styles.signupText, styles.signupLink]}>Log in</Text>
             </TouchableOpacity>
           </View>
-        </View>
-    
-     
-      </ScrollView>
+
+          <View style={styles.privacyTermsContainer}>
+            <Text style={styles.privacyText}>
+              By clicking "Sign up" you agree to our
+            </Text>
+            <View style={styles.linksContainer}>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.link}>Terms of Service</Text>
+              </TouchableOpacity>
+              <Text style={styles.andText}> and </Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.link}>Privacy Policy</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-   
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
-    height: 50,
+    height: responsiveHeight(7),
     backgroundColor: "#007BFF",
 
     ...Platform.select({
@@ -252,7 +250,6 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(3),
     backgroundColor: "#007BFF",
     width: responsiveWidth(80),
-    padding: responsiveHeight(0),
   },
 
   head: {
@@ -271,7 +268,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   textSection: {
@@ -302,11 +299,10 @@ const styles = StyleSheet.create({
 
   privacyTermsContainer: {
     marginBottom: 10,
-  flex:1,
-  justifyContent: "flex-end",
+    flex: 1,
+    justifyContent: "flex-end",
     width: "100%",
     alignItems: "center",
-    
   },
 
   privacyText: {
@@ -333,10 +329,8 @@ const styles = StyleSheet.create({
   },
   inputButton: {
     width: responsiveWidth(87),
-    height: responsiveHeight(6),
-    fontSize: responsiveFontSize(1.9),
-    marginBottom: 10,
+    height: responsiveHeight(5.5),
+    fontSize: responsiveFontSize(1.7),
+    marginBottom: responsiveHeight(1),
   },
-  
 });
- 
