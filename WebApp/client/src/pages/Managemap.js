@@ -10,9 +10,6 @@ const Managemap = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [labels, setLabels] = useState([]);
   const [toolButtonHovered, setToolButtonHovered] = useState(null);
-  const [textInput, setTextInput] = useState("");
-  const [textboxPosition, setTextboxPosition] = useState({ lat: 0, lng: 0 });
-  const [textboxDraggable, setTextboxDraggable] = useState(false);
   const [showLabelPopup, setShowLabelPopup] = useState(false);
   const [labelInput, setLabelInput] = useState("");
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
